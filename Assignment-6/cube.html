@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <script src="../Common/webgl-utils.js"></script>
+    <script src="../Common/initShaders.js"></script>
+    <script src="../Common/MV.js"></script>
+    <script src="Cube.js"></script>
+    <script src="smallCube.js"></script>
+
+    <script id="Cube-vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec2 atexcoord; 
+        
+        uniform mat4 uMatrix;
+        varying vec2 vtexcoord;
+
+        void main()
+        {
+            // Multiply the position by the matrix.
+            gl_Position = uMatrix * vPosition;
+
+            // Pass the texcoord to the fragment shader.
+            vtexcoord = atexcoord;
+        }
+    </script>
+    <script id="Cube-fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        // Passed in from the vertex shader.
+        varying vec2 vtexcoord;
+
+        // The texture.
+        uniform sampler2D utexture;    
+
+        void main()
+        {
+            //gl_FragColor = vec4(0.6, 1.2, gl_FrontFacing ? 1.0 : 0.0, 1.2);
+
+            gl_FragColor = texture2D(utexture, vtexcoord);
+        }
+    </script>
+
+</head>
+
+<body>
+    <canvas id="webgl-canvas" width="512" height="512" style="background-color: #0dc1d5"></canvas>
+
+</body>
+
+</html>
